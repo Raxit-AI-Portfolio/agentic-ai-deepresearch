@@ -1,0 +1,4 @@
+{
+  "//": "No external MCP tool connections in use yet. This project talks to Serper, Gemini, Unsplash, and Hugging Face directly via Python (see agentic_core/services.py, content.py) rather than through MCP servers. Add entries here if/when an external tool (e.g. a GitHub or filesystem MCP server) should be wired in.",
+  "mcpServers": {}
+}

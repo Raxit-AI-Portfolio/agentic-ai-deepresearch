@@ -1,0 +1,64 @@
+# Deep Research Assistant — Agentic Core (Phase 1)
+# Install with: pip install -r requirements.txt
+#
+# Note: langchain-community was officially sunset in May 2026 (repo archived,
+# no longer maintained) but still installs and works fine — flagging this so
+# it isn't a surprise later, not something to fix before running today.
+
+# --- Core graph / orchestration ---
+python-dotenv>=1.0.0
+langchain-community>=0.4.0
+langgraph>=0.6.0
+
+# --- Front-end (front-end/) ---
+streamlit>=1.37.0
+# ^ For local GPU inference (n_gpu_layers=-1 in build_llm), build with GPU
+#   support, e.g.: CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python
+#   CPU-only install works too, just slower.
+
+# --- Reference-doc extraction (pdf/docx/html/images, scanned or text) ---
+pdfplumber>=0.11.0
+python-docx>=1.1.0
+beautifulsoup4>=4.12.0
+pytesseract>=0.3.10
+Pillow>=10.0.0
+PyMuPDF>=1.24.0
+# ^ pytesseract also needs the Tesseract OCR *binary* installed on the system
+#   (not pip-installable) — e.g. `apt-get install tesseract-ocr` on
+#   Debian/Ubuntu/Colab, or `brew install tesseract` on macOS.
+
+# --- Non-text content (chart rendering, data-table fetch, TF-IDF matching) ---
+scikit-learn>=1.4.0
+pandas>=2.2.0
+lxml>=5.0.0
+# ^ lxml is pandas.read_html's parser backend (used by the data-table node)
+tabulate>=0.9.0
+# ^ needed for pandas DataFrame.to_markdown() in the data-table node
+matplotlib>=3.8.0
+requests>=2.31.0
+
+# --- Non-text content validator (copyright/SFW check on system-generated media) ---
+langchain-google-genai>=2.0.0
+langchain-core>=0.3.0
+
+# --- Optional: export to PDF / DOCX (html and markdown/json/xml need nothing extra) ---
+markdown>=3.6
+weasyprint>=62.0
+# ^ weasyprint needs system libraries (pango, cairo, gdk-pixbuf) — see
+#   https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation
+#   If skipped, PDF export falls back to writing Markdown with a note.
+pypandoc>=1.13
+# ^ needs the system `pandoc` binary (not pip-installable) — e.g.
+#   `apt-get install pandoc`. If skipped, DOCX export falls back to
+#   writing Markdown with a note.
+
+# --- Not yet wired (stubs in the code, add when you implement them) ---
+# unsplash-py or direct requests calls — internet-image node currently uses
+#   requests + the Unsplash HTTP API directly, no extra package needed beyond
+#   `requests` above (just set UNSPLASH_ACCESS_KEY).
+# Stable Diffusion / FLUX client, or another hosted image-gen API — needed
+#   once ai_generated_image_content() is implemented (currently a stub).
+
+# --- Hugging Face Hub (for model downloads) ---
+huggingface-hub
+
